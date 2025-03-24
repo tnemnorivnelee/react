@@ -1,20 +1,31 @@
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 
 function App() {
+  const [id, setId] = useState('');
   const [domain, setDomain] = useState('naver.com');
 
-  const domains = ['naver.com', 'gmail.com', 'hanmail.com'];
+  const domains = ['naver.com', 'gmail.com', 'hanmail.com', 'kakao.com'];
+
+  console.log('App', id);
+
+  const onChangeEmail = (e) => {
+    console.log('beforeChange', id); // ''
+    setId(e.target.value);
+    console.log('afterChange', id); // ''
+  };
+
+  const onChangeDomain = (e) => {
+    setDomain(e.target.value);
+  };
 
   return (
     <>
       <div>
         <div>
-          <input type='text' />
+          <input type='text' value={id} onChange={onChangeEmail} />
           {domain === '' ? null : <span>@</span>}
-          <select name='' id=''>
+          <select name='' id='' value={domain} onChange={onChangeDomain}>
             {domains.map((domain) => (
               <option key={domain} value={domain}>
                 {domain}
