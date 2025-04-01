@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import './App.css';
 
 // function veryHeavyComputation() {
@@ -13,6 +13,8 @@ function App() {
   // const [id, setId] = useState(veryHeavyComputation);
   const [id, setId] = useState('');
   // 두번째 렌더링 호출 때 초기값 완전 무시, set으로 설정된 값으로..
+  const idRef = useRef(null); // {current: null }로 초기화됨
+  const passwordRef = useRef(null); // {current: null }로 초기화됨
   const [domain, setDomain] = useState('naver.com');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
@@ -42,10 +44,14 @@ function App() {
   const onLogin = () => {
     if (!id.trim()) {
       setErrors({ ...errors, idError: '아이디를 입력해주세요' });
+      // document.getElementById('id').focus();
+      idRef.current.focus();
       return;
     }
     if (!password.trim()) {
       setErrors({ passwordError: '비밀번호를 입력해주세요' });
+      // document.getElementById('password').focus();
+      passwordRef.current.focus();
       return;
     }
     setErrors({});
@@ -62,7 +68,7 @@ function App() {
           >
             아이디
           </label>
-          <input type='text' value={id} onChange={onChangeEmail} />
+          <input ref={idRef} type='text' value={id} onChange={onChangeEmail} />
           {domain === '' ? null : <span>@</span>}
           <select name='' id='' value={domain} onChange={onChangeDomain}>
             {domains.map((domain) => (
@@ -84,6 +90,7 @@ function App() {
             비밀번호
           </label>
           <input
+            ref={passwordRef}
             type='password'
             id='password'
             value={password}
