@@ -6,17 +6,16 @@ import Input from "./components/input";
 import useEmailInput from "./hooks/useEmailInput";
 import useInput from "./hooks/useInput";
 
-function Signup() {
-  const [nickname, nicknameRef, onChangeNickname] = useInput("");
-  const [phone, phoneRef, onChangePhone] = useInput("");
+function Login() {
   const [password, passwordRef, onChangePassword] = useInput("");
+  const { id, idRef, onChangeEmail, domain, onChangeDomain } = useEmailInput();
   const counterRef = useRef(0);
   const [errors, setErrors] = useState({});
-  const { id, idRef, onChangeEmail, domain, onChangeDomain } = useEmailInput();
   const navigate = useNavigate();
 
+  const fullDomain = `${id}@${domain}`;
 
-  const onSignup = () => {
+  const onLogin = () => {
     counterRef.current += 1;
 
     if (!id.trim()) {
@@ -25,21 +24,19 @@ function Signup() {
       idRef.current.focus();
       return;
     }
-    if (!nickname.trim()) {
+    if (!password.trim()) {
       setErrors({ passwordError: "비밀번호를 입력해주세요" });
       // document.getElementById('password').focus();
-      nicknameRef.current.focus();
+      passwordRef.current.focus();
       return;
     }
     setErrors({});
+    console.log(fullDomain, password);
   };
 
-  const onLogin = () => {
-    navigate("/login");
+  const onSignup = () => {
+    navigate("/signup");
   }
-
-  // 함수의 참조를 유지하고 싶으면 useCallback을 사용해야 한다.
-  // useMemo는 값(객체)의 참조를 유지하고 싶을 때 사용한다.
 
   return (
     <>
@@ -61,28 +58,15 @@ function Signup() {
           error={errors.passwordError}
           type="password"
         />
-        <Input
-          id="nickname"
-          text="닉네임"
-          ref={nicknameRef}
-          onChange={onChangeNickname}
-          value={nickname}
-          error={errors.nickname}
-        />
-        <Input
-          id="phone"
-          text="전화번호"
-          ref={phoneRef}
-          onChange={onChangePhone}
-          value={phone}
-          error={errors.phoneError}
-        />
-        <button onClick={onSignup}>전화번호</button>
+        {errors.passwordError && (
+          <div style={{ color: "red" }}>{errors.passwordError}</div>
+        )}
+        {/* <div>{fullDomain}</div> */}
+        <button onClick={onLogin}>로그인</button>
       </div>
-
-      <button onClick={onLogin}>로그인</button>
+      <button onClick={onSignup}>회원가입</button>
     </>
   );
 }
 
-export default Signup;
+export default Login;
