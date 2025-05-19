@@ -1,4 +1,6 @@
-export default function Input({
+import { memo } from "react";
+
+function Input({
   id,
   text,
   ref,
@@ -17,3 +19,6 @@ export default function Input({
     </div>
   );
 }
+
+// 
+export default memo(Input);

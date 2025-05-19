@@ -31,6 +31,11 @@ function Signup() {
     setErrors({});
   };
 
+
+
+  // 함수의 참조를 유지하고 싶으면 useCallback을 사용해야 한다.
+  // useMemo는 값(객체)의 참조를 유지하고 싶을 때 사용한다.
+
   return (
     <>
       <div style={{ textAlign: "left" }} className="login-form">
